@@ -1,0 +1,23 @@
+
+a.blocktrail-tooltip {
+    position: relative;
+}
+
+.tooltip {
+    display: block;
+    position: absolute;
+    bottom: 2em;
+    left: 0;
+    font-size: 0.8em;
+
+    padding: 1em;
+    border-radius: 1em;
+    border: 1px solid #D2D2D2;
+
+    background: #DFDFDF;
+    opacity: 0;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+a.blocktrail-tooltip:hover .tooltip {
+    opacity: 1;
+}
