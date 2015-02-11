@@ -13,7 +13,7 @@ function BtBrowserExtension() {
     this.template = '<h4>%address%</h4>'
         + 'balance: %balance% BTC<br>'
         + 'transactions: %transactions%<br>'
-        + 'tag: %category% : %tag%<br>';
+        + '<span class="%tag_display%">tag: %category%  %tag%</span><br>';
         //+ '<a href="%link%" target="_blank">more info</a>';
 }
 
@@ -79,15 +79,15 @@ BtBrowserExtension.prototype.scan = function() {
                             transactions: data.total_transactions_in + data.total_transactions_out,
                             category: data.category,
                             tag: data.tag,
+                            tag_display: (data.category || data.tag) ? "show" : "hide",
                             link: "https://www.blocktrail.com/"+network+"/address/"+data.address
                         };
 
                         return self.tooltipTemplate(templateData);
-                        //api.set('content.text', content);
                     },
                     function error(xhr, status, error){
-                        console.log('Oh noes, an error!', error);
-                        api.set('content.text', 'Oh noes, an error! ' + error);
+                        //console.log('Oh noes, an error!', error);
+                        api.set('content.text', 'Oh noes, an error happened!');
                     });
             }
         },
