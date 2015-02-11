@@ -8,74 +8,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 
 
-/*
-// A generic onclick callback function.
-function genericOnClick(info, tab) {
-    console.log("item " + info.menuItemId + " was clicked");
-    console.log("info: " + JSON.stringify(info));
-    console.log("tab: " + JSON.stringify(tab));
-}
-
-// Create one test item for each context type.
-var contexts = ["page","selection","link","editable","image","video",
-    "audio"];
-for (var i = 0; i < contexts.length; i++) {
-    var context = contexts[i];
-    var title = "Test '" + context + "' menu item";
-    var id = chrome.contextMenus.create({"title": title, "contexts":[context],
-        "onclick": genericOnClick});
-    console.log("'" + context + "' item:" + id);
-}
-
-
-// Create a parent item and two children.
-var parent = chrome.contextMenus.create({"title": "Test parent item"});
-var child1 = chrome.contextMenus.create(
-    {"title": "Child 1", "parentId": parent, "onclick": genericOnClick});
-var child2 = chrome.contextMenus.create(
-    {"title": "Child 2", "parentId": parent, "onclick": genericOnClick});
-console.log("parent:" + parent + " child1:" + child1 + " child2:" + child2);
-
-
-// Create some radio items.
-function radioOnClick(info, tab) {
-    console.log("radio item " + info.menuItemId +
-    " was clicked (previous checked state was "  +
-    info.wasChecked + ")");
-}
-var radio1 = chrome.contextMenus.create({"title": "Radio 1", "type": "radio",
-    "onclick":radioOnClick});
-var radio2 = chrome.contextMenus.create({"title": "Radio 2", "type": "radio",
-    "onclick":radioOnClick});
-console.log("radio1:" + radio1 + " radio2:" + radio2);
-
-
-// Create some checkbox items.
-function checkboxOnClick(info, tab) {
-    console.log(JSON.stringify(info));
-    console.log("checkbox item " + info.menuItemId +
-    " was clicked, state is now: " + info.checked +
-    "(previous state was " + info.wasChecked + ")");
-
-}
-var checkbox1 = chrome.contextMenus.create(
-    {"title": "Checkbox1", "type": "checkbox", "onclick":checkboxOnClick});
-var checkbox2 = chrome.contextMenus.create(
-    {"title": "Checkbox2", "type": "checkbox", "onclick":checkboxOnClick});
-console.log("checkbox1:" + checkbox1 + " checkbox2:" + checkbox2);
-
-
-// Intentionally create an invalid item, to show off error checking in the
-// create callback.
-console.log("About to try creating an invalid item - an error about " +
-"item 999 should show up");
-chrome.contextMenus.create({"title": "Oops", "parentId":999}, function() {
-    if (chrome.extension.lastError) {
-        console.log("Got expected error: " + chrome.extension.lastError.message);
-    }
-});
-*/
-
 
 
 
@@ -83,73 +15,101 @@ chrome.contextMenus.create({"title": "Oops", "parentId":999}, function() {
 
 var btcRegex = /([\s|\W]+|^)([13][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
 var tBtcRegex = /([\s|\W]+|^)([2mn][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
+var txHashRegex = /([\s|\W]+|^)([0-9a-f]{64})([\s|\W]+|$)/g;
+
+var blocktrailUrl = "https://www.blocktrail.com/";
+blocktrailUrl = "http://blocktrail.localhost/";
 
 
+/**
+ * checks the given string for a btc/tbtc address and returns both network and found address
+ *
+ * @param input
+ * @returns {{network: string, address: null}}
+ */
+function matchBitcoinAddress(input) {
+    //check the input for a bitcoin/testnet address and return object of results
 
+    var result = {
+        network: 'btc',
+        address: null
+    };
 
+    //first try match bitcoin address
+    var matches = btcRegex.exec(input);
+    if(matches != null) {
+        result.address = matches[2];   //get the second group of the match
+    } else {
+        //try match testnet address
+        matches = tBtcRegex.exec(input);
 
+        if(matches != null) {
+            result.network = "tbtc";
+            result.address = matches[2];
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-// A generic onclick callback function.
-function genericOnClick(info, tab) {
-    console.log('hiiiiiiii');
-    console.log("item " + info.menuItemId + " was clicked");
-    console.log("info: " + JSON.stringify(info));
-    console.log("tab: " + JSON.stringify(tab));
+    return result;
 }
 
-function goToBlocktrailAddress(info, tab) {
+
+/**
+ * our context menu click handler
+ * @param info
+ * @param tab
+ */
+function contextMenuHandler(info, tab) {
+    if (info.menuItemId == "contextLink") {
+        //check the link for an address to go to
+        var result = matchBitcoinAddress(info.linkUrl);
+        chrome.tabs.update(tab.id, {url: blocktrailUrl+result.network+"/address/"+result.address});
+    } else if (info.menuItemId == "contextSelection") {
+        //check the text selection for an address to go to
+        var result = matchBitcoinAddress(info.selectionText);
+        chrome.tabs.update(tab.id, {url: blocktrailUrl+result.network+"/address/"+result.address});
+    }
     console.log(info, tab);
 }
 
 
+
 // Create context menus for different context type.
-//var contexts = ["page","selection","link","editable","image","video", "audio"];
 var contextMenus = {};
+//root menu
+contextMenus.root = chrome.contextMenus.create({
+    "id": 'root',
+    "title": "Blocktrail",
+    "contexts":["all"]
+});
 //Text selection
 contextMenus.selectionMenu = chrome.contextMenus.create({
     "id": 'contextSelection',
+    "parentId": contextMenus.root,
     "title": "Search Blocktrail for '%s'",
     "contexts":["selection"],
-    "onclick": genericOnClick
+    "onclick": contextMenuHandler
 });
-
 //links
 contextMenus.linkMenu = chrome.contextMenus.create({
     "id": 'contextLink',
+    "parentId": contextMenus.root,
     "title": "Search Blocktrail for address",
     "contexts":["link"],
-    "onclick": genericOnClick
+    "onclick": contextMenuHandler
 });
-
-//set up event handlers
-
-// The onClicked callback function.
-function onClickHandler(info, tab) {
-    alert('hi');
-    if (info.menuItemId == "radio1" || info.menuItemId == "radio2") {
-        console.log("radio item " + info.menuItemId +
-        " was clicked (previous checked state was "  +
-        info.wasChecked + ")");
-    } else if (info.menuItemId == "checkbox1" || info.menuItemId == "checkbox2") {
-        console.log(JSON.stringify(info));
-        console.log("checkbox item " + info.menuItemId +
-        " was clicked, state is now: " + info.checked +
-        " (previous state was " + info.wasChecked + ")");
-
-    } else {
-        console.log("item " + info.menuItemId + " was clicked");
-        console.log("info: " + JSON.stringify(info));
-        console.log("tab: " + JSON.stringify(tab));
+//separator
+contextMenus.linkMenu = chrome.contextMenus.create({
+    "parentId": contextMenus.root,
+    "type": 'separator',
+    "contexts":["all"]
+});
+//generic menu option
+contextMenus.selectionMenu = chrome.contextMenus.create({
+    "id": 'toBlocktrail',
+    "parentId": contextMenus.root,
+    "title": "Go to Blocktrail.com",
+    "contexts":["all"],
+    "onclick": function(info, tab){
+        chrome.tabs.update(tab.id, {url: "https://www.blocktrail.com"});
     }
-};
-
-chrome.contextMenus.onClicked.addListener(onClickHandler);
+});

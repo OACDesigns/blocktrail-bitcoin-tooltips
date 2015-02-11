@@ -113,10 +113,10 @@ $(document).ready(function(){
 
     //on activate tab, set rescan interval
     var rescan = setInterval(function() {
-        console.log('rescan');
+        //console.log('rescan');
         bt.scan();
     }, 1000);
 
-    // on deactive tab clearInterval(rescan);
+    // on deactivate tab clearInterval(rescan);
     //...
 });
