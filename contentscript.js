@@ -13,7 +13,7 @@ function BtBrowserExtension() {
     this.template = '<h4>%address%</h4>'
         + 'balance: %balance% BTC<br>'
         + 'transactions: %transactions%<br>'
-        + '<span class="%tag_display%">tag: %category%  %tag%</span><br>';
+        + '<span class="%tag_display%">tag: %category%  %tag%</span>';
         //+ '<a href="%link%" target="_blank">more info</a>';
 }
 
