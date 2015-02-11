@@ -1,90 +1,64 @@
 
-var apiUrl = "https://api.blocktrail.com/";
-var apiVersion = "v1";
-var api_key = "MY_APIKEY";
-var api_secret = "MY_APISECRET";
-
-function setupTooltip(element) {
-    //prepare the tooltip for the given element
-    var tooltipHTML = '<span class="tooltip">loading...</span>';
-    //$(element).addClass('tooltip-wrapper');
-    $(element).append(tooltipHTML);
-}
-
-function getAddressInfo(address, network, element) {
-    //get bitcoin address info and then creates a tooltip on the given element
-    $.ajax({
-        url: apiUrl + apiVersion + "/" + network + "/address/" + address,
-        data: {api_key: api_key},
-        type: "GET",
-        cache: false,
-        success: function(data){
-            console.log('got some data!', data);
-
-            $('.tooltip', $(element)).html('<small>' + data.address + '</small><br>' + 'balance: ' + data.balance);
-
-            $(element).hover(function(){
-                console.log('address: ' + address);
-            });
-
-        },
-        error: function(data){
-            console.log('Oh noes, an error!', data);
-        },
-        dataType: 'json'
-    });
-
-}
-
-$(document).ready(function(){
-    console.log('Blocktrail browser extension...ready!');
+function BtBrowserExtension() {
+    this.COIN = 100000000;
+    this.PRECISION = 8;
+    this.API_URL = "https://api.blocktrail.com/";
+    this.API_VERSION = "v1";
+    this.API_KEY = "MY_APIKEY";
 
     //match where space, string start/end or non-word character precedes and follows the address (split into a group for separation from the address itself)
-    var btcRegex = /([\s|\W]+|^)([13][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
-    var tBtcRegex = /([\s|\W]+|^)([2mn][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
+    this.btcRegex = /([\s|\W]+|^)([13][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
+    this.tBtcRegex = /([\s|\W]+|^)([2mn][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
 
-    $('a').each(function(key, val){
+    this.template = '<h4>%address%</h4>'
+        + 'balance: %balance% BTC<br>'
+        + 'transactions: %transactions%<br>'
+        + 'tag: %category% : %tag%<br>';
+        //+ '<a href="%link%" target="_blank">more info</a>';
+}
+
+BtBrowserExtension.prototype.tooltipTemplate = function(templateData) {
+    var tooltipHTML = this.template;
+    $.each(templateData, function(index, value) {
+        tooltipHTML = tooltipHTML.replace("%"+index+"%", value);
+    });
+
+    return tooltipHTML;
+};
+
+BtBrowserExtension.prototype.toBTC = function(satoshi) {
+    return (satoshi / this.COIN).toFixed(this.PRECISION);
+};
+
+BtBrowserExtension.prototype.scan = function() {
+    var self = this;
+
+    $('a:not(.bt-browser-extension-tooltip)').each(function(key, val) {
         //try match bitcoin address in both href and anchor text
         var searchText = $(this).text() + " " + $(this).attr('href');
-        var matches = btcRegex.exec(searchText);
-        //console.log(matches);
+        var matches = self.btcRegex.exec(searchText);
+
         if(matches != null) {
-            $(this).addClass('blocktrail-tooltip');
+            $(this).addClass('bt-browser-extension-tooltip');
             $(this).attr('data-network', 'btc').attr('data-address', matches[2]);   //get the second group of the match
-            //setupTooltip($(this));
-            //getAddressInfo(matches[0], 'btc', $(this));
 
             //need to reset the indexes of each regex as we are using the global modifier
-            btcRegex.lastIndex = 0;
+            self.btcRegex.lastIndex = 0;
         } else {
             //try match testnet address
-            matches = tBtcRegex.exec(searchText);
-            //console.log(matches);
+            matches = self.tBtcRegex.exec(searchText);
+
             if(matches != null) {
-                $(this).addClass('blocktrail-tooltip');
+                $(this).addClass('bt-browser-extension-tooltip');
                 $(this).attr('data-network', 'tbtc').attr('data-address', matches[2]);
-                //setupTooltip($(this));
-                //getAddressInfo(matches[0], 'tbtc', $(this));
 
                 //need to reset the indexes of each regex as we are using the global modifier
-                tBtcRegex.lastIndex = 0;
+                self.tBtcRegex.lastIndex = 0;
             }
         }
     });
 
-    $('body').on('mouseenter', '.blocktrail-tooltip', function(){
-        var address = $(this).attr('data-address');
-        var network = $(this).attr('data-network');
-        //getAddressInfo(address, network, $(this));
-    });
-
-    //if the dom is modified we need to re-parse
-    //...
-    $("body").bind("DOMSubtreeModified", function() {
-        console.log("tree changed");
-    });
-
-    $('.blocktrail-tooltip').qtip({
+    $('.bt-browser-extension-tooltip').qtip({
         content: {
             text: function(event, api) {
                 //get the info about the address
@@ -92,22 +66,57 @@ $(document).ready(function(){
                 var network = $(this).data('network');
 
                 return $.ajax({
-                        url: apiUrl + apiVersion + "/" + network + "/address/" + address,
-                        data: {api_key: api_key},
-                        type: "GET",
-                        cache: false,
-                        dataType: 'json'
-                    }).then(
+                    url: self.API_URL + self.API_VERSION + "/" + network + "/address/" + address,
+                    data: {api_key: self.API_KEY},
+                    type: "GET",
+                    cache: false,
+                    dataType: 'json'
+                }).then(
                     function success(data){
-                        console.log('got some data!', data);
-                        return '<small>' + data.address + '</small><br>' + 'balance: ' + data.balance;
+                        var templateData = {
+                            address: data.address,
+                            balance: self.toBTC(data.balance),
+                            transactions: data.total_transactions_in + data.total_transactions_out,
+                            category: data.category,
+                            tag: data.tag,
+                            link: "https://www.blocktrail.com/"+network+"/address/"+data.address
+                        };
+
+                        return self.tooltipTemplate(templateData);
                         //api.set('content.text', content);
                     },
                     function error(xhr, status, error){
                         console.log('Oh noes, an error!', error);
-                        api.set('content.text', status + ': ' + error);
-                });
+                        api.set('content.text', 'Oh noes, an error! ' + error);
+                    });
             }
-        }
+        },
+        position: {
+            my: 'bottom left',  // Position my top left...
+            at: 'top left',     // at the bottom right of...
+            target: false,
+            effect: false,      // disable default slide animation
+            adjust: { x: 2}
+        },
+        style: {
+            classes: 'qtip-tipsy qtip-shadow bt-qtip-custom'
+        },
+        overwrite: false    //don't destroy existing qtips when re-initialising
     });
+};
+
+$(document).ready(function(){
+    var bt = new BtBrowserExtension();
+    console.log('Blocktrail browser extension...ready!');
+
+    bt.scan();
+
+    //on activate tab, set rescan interval
+    var rescan = setInterval(function() {
+        console.log('rescan');
+        bt.scan();
+    }, 1000);
+
+    // on deactive tab clearInterval(rescan);
+    //...
 });
