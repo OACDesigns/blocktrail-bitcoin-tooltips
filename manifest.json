@@ -10,6 +10,11 @@
     "default_icon": "resources/icon-small.png",
     "default_popup": "popup.html"
   },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
   "permissions": [
     "activeTab",
     "contextMenus",
@@ -26,5 +31,9 @@
       "css": ["libs/jquery.qtip.min.css", "style.css"],
       "js": ["libs/jquery.js", "libs/jquery.qtip.min.js", "contentscript.js"]
     }
-  ]
+  ],
+  "browser_action": {
+    "default_title": "Blocktrail is awesome",
+    "default_icon": "resources/icon-bitty.png"
+  }
 }
