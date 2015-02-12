@@ -1,4 +1,8 @@
 
+chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
+    console.log('got a message!', data, sender);
+});
+
 
 $(document).ready(function(){
     var bt = new BlocktrailBitTips();
@@ -14,4 +18,8 @@ $(document).ready(function(){
 
     // on deactivate tab clearInterval(rescan);
     //...
+
+
+
+    chrome.runtime.sendMessage({data: 'hello world!', from: "content"});
 });
