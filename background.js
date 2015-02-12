@@ -18,7 +18,6 @@ var tBtcRegex = /([\s|\W]+|^)([2mn][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
 var txHashRegex = /([\s|\W]+|^)([0-9a-f]{64})([\s|\W]+|$)/g;
 
 var blocktrailUrl = "https://www.blocktrail.com/";
-blocktrailUrl = "http://blocktrail.localhost/";
 
 
 /**
@@ -31,7 +30,7 @@ function matchBitcoinAddress(input) {
     //check the input for a bitcoin/testnet address and return object of results
 
     var result = {
-        network: 'btc',
+        network: 'BTC',
         address: null
     };
 
@@ -44,7 +43,7 @@ function matchBitcoinAddress(input) {
         matches = tBtcRegex.exec(input);
 
         if(matches != null) {
-            result.network = "tbtc";
+            result.network = "tBTC";
             result.address = matches[2];
         }
     }
@@ -59,15 +58,22 @@ function matchBitcoinAddress(input) {
  * @param tab
  */
 function contextMenuHandler(info, tab) {
+    var newUrl = blocktrailUrl;
+
     if (info.menuItemId == "contextLink") {
         //check the link for an address to go to
         var result = matchBitcoinAddress(info.linkUrl);
-        chrome.tabs.update(tab.id, {url: blocktrailUrl+result.network+"/address/"+result.address});
+        newUrl = blocktrailUrl+result.network+"/address/"+result.address;
     } else if (info.menuItemId == "contextSelection") {
         //check the text selection for an address to go to
         var result = matchBitcoinAddress(info.selectionText);
-        chrome.tabs.update(tab.id, {url: blocktrailUrl+result.network+"/address/"+result.address});
+        newUrl = blocktrailUrl+result.network+"/address/"+result.address;
     }
+
+    //create a new tab
+    chrome.tabs.create({ url: newUrl });
+    //chrome.tabs.update(tab.id, {url: blocktrailUrl+result.network+"/address/"+result.address});
+
     console.log(info, tab);
 }
 
@@ -110,6 +116,7 @@ contextMenus.selectionMenu = chrome.contextMenus.create({
     "title": "Go to Blocktrail.com",
     "contexts":["all"],
     "onclick": function(info, tab){
-        chrome.tabs.update(tab.id, {url: "https://www.blocktrail.com"});
+        //chrome.tabs.update(tab.id, {url: "https://www.blocktrail.com"});      //redirect current tab
+        chrome.tabs.create({ url: blocktrailUrl });        //navigate in new tab
     }
 });
