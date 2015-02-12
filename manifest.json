@@ -30,8 +30,18 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "exclude_matches": ["*://*.blocktrail.com/*"],
-      "css": ["libs/jquery.qtip.min.css", "style.css"],
-      "js": ["libs/jquery.js", "libs/jquery.qtip.min.js", "libs/jquery.bt-bitcoin-tooltips.js", "contentscript.js"]
+      "css": [
+        "libs/jquery.qtip.min.css",
+        "libs/reveal/reveal.css",
+        "style.css"
+      ],
+      "js": [
+        "libs/jquery.js",
+        "libs/jquery.qtip.min.js",
+        "libs/jquery.bt-bitcoin-tooltips.js",
+        "libs/reveal/jquery.reveal.js",
+        "contentscript.js"
+      ]
     }
   ],
   "browser_action": {
