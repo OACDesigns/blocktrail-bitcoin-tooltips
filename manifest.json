@@ -28,6 +28,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": ["*://*.blocktrail.com/*"],
       "css": ["libs/jquery.qtip.min.css", "style.css"],
       "js": ["libs/jquery.js", "libs/jquery.qtip.min.js", "contentscript.js"]
     }
