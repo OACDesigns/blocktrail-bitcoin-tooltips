@@ -13,7 +13,7 @@ function BlocktrailBitTips() {
     this.template = '<h4>%address%</h4>'
     + 'balance: %balance% BTC<br>'
     + 'transactions: %transactions%<br>'
-    + '<span class="%tag_display%">tag: %category%  %tag%</span>';
+    + '<span class="%tag_display%">tags: %category%  %tag%</span>';
     //+ '<a href="%link%" target="_blank">more info</a>';
 }
 
