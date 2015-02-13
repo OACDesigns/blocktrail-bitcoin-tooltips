@@ -3,12 +3,24 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
     console.log('got a message!', data, sender);
     switch(data.action) {
         case "pay_address_modal":
-            $('#myModal .title').text("Make a " + data.network + " Payment");
-            $('#myModal .subtitle').text(data.address);
-            var content = "<img src='" + data.QR + "' >"
-                        + "<p>This is a " + data.network + " address. Scan the above QR with a wallet to send funds to it.</p>";
-            $('#myModal .content').html(content);
-            $('#myModal').reveal({
+            $('#btBitTipModal').removeClass().addClass('reveal-modal bt-text-center');
+            $('#btBitTipModal .title').text("Make a " + data.network + " Payment");
+            var content = "<div class='bt-bitcoin-payment-qr'></div>"
+                        + "<p><i>" + data.address + "</i></p>"
+                        + "<p>Scan the above QR with your wallet to send funds.</p>";
+            $('#btBitTipModal .content').html(content);
+
+            //generate the QR code
+            var protocol = "bitcoin:";
+            if (data.network.toLowerCase() == 'tbtc') {
+                protocol = ''
+            }
+            var options = {
+                text: protocol + data.address
+            };
+            $(".bt-bitcoin-payment-qr").qrcode(options);
+
+            $('#btBitTipModal').reveal({
                 animation: 'fadeAndPop',                   //fade, fadeAndPop, none
                 animationspeed: 300,                       //how fast animtions are
                 closeonbackgroundclick: true,              //if you click background will modal close?
@@ -16,11 +28,11 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
             });
             break;
         case "invalid_address_modal":
+            $('#btBitTipModal').removeClass().addClass('reveal-modal');
             var content = "<p> The selection <b>'" + data.search + "'</b> is not a valid address.</p>";
-            $('#myModal .title').text("Invalid address");
-            $('#myModal .subtitle').text("");
-            $('#myModal .content').html(content);
-            $('#myModal').reveal({
+            $('#btBitTipModal .title').text("Invalid address");
+            $('#btBitTipModal .content').html(content);
+            $('#btBitTipModal').reveal({
                 animation: 'fadeAndPop',                   //fade, fadeAndPop, none
                 animationspeed: 300,                       //how fast animtions are
                 closeonbackgroundclick: true,              //if you click background will modal close?
@@ -55,7 +67,7 @@ $(document).ready(function(){
 
 
     //append the modal window to the body
-    var html = '<div id="myModal" class="reveal-modal"><h1 class="title">Modal Title</h1><h2 class="subtitle">Subtitle</h2>'
+    var html = '<div id="btBitTipModal" class="reveal-modal"><h1 class="title">Modal Title</h1>'
              + '<div class="content">Any content could go in here.</div><a class="close-reveal-modal">&#215;</a></div>';
     $('body').append(html);
 

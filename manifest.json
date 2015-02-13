@@ -40,7 +40,7 @@
         "libs/jquery.qtip.min.js",
         "libs/jquery.bt-bitcoin-tooltips.js",
         "libs/reveal/jquery.reveal.js",
-        "jquery.qrcode-0.11.0.min",
+        "libs/jquery.qrcode-0.11.0.min.js",
         "contentscript.js"
       ]
     }

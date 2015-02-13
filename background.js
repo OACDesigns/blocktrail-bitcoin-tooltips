@@ -131,13 +131,6 @@ chrome.runtime.onInstalled.addListener(function() {
     });
 
     /*---Text selections---*/
-    //see address on blocktrail
-    contextMenus.selectionMenu = chrome.contextMenus.create({
-        "id": 'selection_search_address',
-        "parentId": contextMenus.root,
-        "title": "Search Blocktrail for '%s'",
-        "contexts": ["selection"]
-    });
     //pay address
     contextMenus.selectionMenu = chrome.contextMenus.create({
         "id": 'selection_pay_address',
@@ -145,20 +138,27 @@ chrome.runtime.onInstalled.addListener(function() {
         "title": "Send Bitcoin to '%s'",
         "contexts": ["selection"]
     });
+    //see address on blocktrail
+    contextMenus.selectionMenu = chrome.contextMenus.create({
+        "id": 'selection_search_address',
+        "parentId": contextMenus.root,
+        "title": "Search Blocktrail for '%s'",
+        "contexts": ["selection"]
+    });
 
     /*---Links---*/
-    //see address on blocktrail
-    contextMenus.linkMenu = chrome.contextMenus.create({
-        "id": 'link_search_address',
-        "parentId": contextMenus.root,
-        "title": "Search Blocktrail for address",
-        "contexts": ["link"]
-    });
     //pay address
     contextMenus.linkMenu = chrome.contextMenus.create({
         "id": 'link_pay_address',
         "parentId": contextMenus.root,
         "title": "Send Bitcoin to Address",
+        "contexts": ["link"]
+    });
+    //see address on blocktrail
+    contextMenus.linkMenu = chrome.contextMenus.create({
+        "id": 'link_search_address',
+        "parentId": contextMenus.root,
+        "title": "Search Blocktrail for address",
         "contexts": ["link"]
     });
 
@@ -181,12 +181,14 @@ chrome.runtime.onInstalled.addListener(function() {
     });
 
     //testing menu option
+    /*
     contextMenus.selectionMenu = chrome.contextMenus.create({
         "id": 'testing',
         "parentId": contextMenus.root,
         "title": "Testing",
         "contexts": ["all"]
     });
+    */
 });
 
 

@@ -1,4 +1,8 @@
 
+.bt-text-center {
+    text-align: center;
+}
+
 .bt-qtip-custom h4{
     font-size: 1.05em !important;
     margin: 0 0 0.5em 0;
@@ -7,4 +11,23 @@
 
 .bt-qtip-custom .hide{
     display: none !important;
+}
+
+#btBitTipModal {
+    word-wrap: break-word;
+}
+#btBitTipModal h1 {
+    display: block;
+    width:auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #000;
+    font-size: 2rem;
+    line-height: initial;
+}
+#btBitTipModal .bt-bitcoin-payment-qr {
+
 }
