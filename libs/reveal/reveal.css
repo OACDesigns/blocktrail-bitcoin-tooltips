@@ -1,5 +1,5 @@
 /*	--------------------------------------------------
-	Reveal Modals
+	Reveal Modals - by Zurb Foundation
 	-------------------------------------------------- */
 		
 	.reveal-modal-bg { 
@@ -19,8 +19,8 @@
 		top: 100px; 
 		left: 50%;
 		margin-left: -300px;
-		width: 520px;
-		/*background: #eee url(modal-gloss.png) no-repeat -200px -80px;*/
+		width: 600px;
+		background: #eee;
 		position: absolute;
 		z-index: 101;
 		padding: 30px 40px 34px;

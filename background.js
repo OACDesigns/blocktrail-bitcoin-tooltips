@@ -1,7 +1,7 @@
 
-var btcRegex = /([\s|\W]+|^)([13][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
-var tBtcRegex = /([\s|\W]+|^)([2mn][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
-var txHashRegex = /([\s|\W]+|^)([0-9a-f]{64})([\s|\W]+|$)/g;
+var btcRegex = /([\s|\W]+|^)([13][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/;
+var tBtcRegex = /([\s|\W]+|^)([2mn][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/;
+var txHashRegex = /([\s|\W]+|^)([0-9a-f]{64})([\s|\W]+|$)/;
 
 var blocktrailUrl = "https://www.blocktrail.com/";
 
@@ -34,6 +34,7 @@ function matchBitcoinAddress(input) {
         }
     }
 
+    console.log('searching '+input+'for btc/tbtc addresses: ', result);
     return result;
 }
 
@@ -52,13 +53,30 @@ function findOnBlocktrail(searchText) {
  * searches the text for an address and opens a popup with a QR code for making payments
  * @param searchText
  */
-function payBitcoinAddressPopup(searchText) {
+function payBitcoinAddressPopup(searchText, tab) {
     var result = matchBitcoinAddress(searchText);
     if (result.address) {
-
+        //create a QR code (maybe do this in the content script for live updating when we add amounts)
+        var qrCodeBase64 = "";
+        //send a message to the content script to trigger a modal
+        var data = {
+            action: 'pay_address_modal',
+            address: result.address,
+            network: result.network,
+            QR: qrCodeBase64
+        };
+        chrome.tabs.sendMessage(tab.id, data);
+        console.log('requesting modal to pay address', result.address);
     } else {
-        //no valid address found
+        //no valid address found - display an "invalid" address in the content script
+        var data = {
+            action: 'invalid_address_modal',
+            search: searchText
+        };
+        chrome.tabs.sendMessage(tab.id, data);
     }
+
+    console.log('sent message', data);
 }
 
 
@@ -79,10 +97,10 @@ function contextMenuHandler(info, tab) {
             findOnBlocktrail(info.selectionText);
             break;
         case "link_pay_address":
-            payBitcoinAddressPopup(info.linkUrl);
+            payBitcoinAddressPopup(info.linkUrl, tab);
             break;
         case "selection_pay_address":
-            payBitcoinAddressPopup(info.selectionText);
+            payBitcoinAddressPopup(info.selectionText, tab);
             break;
         case "go_to_blocktrail":
             //chrome.tabs.update(tab.id, {url: "https://www.blocktrail.com"});      //redirect current tab
