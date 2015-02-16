@@ -7,7 +7,7 @@
   "author": "Oisin Conolly",
 
   "browser_action": {
-    "default_icon": "resources/icon-small.png",
+    "default_icon": "images/icon-small.png",
     "default_popup": "popup.html"
   },
   "background": {
@@ -22,11 +22,20 @@
     "https://api.blocktrail.com/"
   ],
   "icons": {
-    "16": "resources/icon-bitty.png",
-    "48": "resources/icon-small.png",
-    "128": "resources/icon-large.png"
+    "16": "images/icon-bitty.png",
+    "48": "images/icon-small.png",
+    "128": "images/icon-large.png"
   },
   "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "css": [
+        "style.css"
+      ],
+      "js": [
+        "libs/jquery.js"
+      ]
+    },
     {
       "matches": ["http://*/*", "https://*/*"],
       "exclude_matches": ["*://*.blocktrail.com/*"],
@@ -36,18 +45,28 @@
         "style.css"
       ],
       "js": [
-        "libs/jquery.js",
         "libs/jquery.qtip.min.js",
         "libs/jquery.bt-bitcoin-tooltips.js",
-        "libs/reveal/jquery.reveal.js",
+        "scripts/tooltips.js"
+      ]
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": ["*://*.blocktrail.com/*"],
+      "css": [
+        "libs/reveal/reveal.css",
+        "style.css"
+      ],
+      "js": [
+        "libs/reveal/jquery.reveal.custom.js",
+        "libs/lodash.min.js",
         "libs/jquery.qrcode-0.11.0.min.js",
-        "contentscript.js"
+        "scripts/modal-injector.js"
       ]
     }
   ],
-  "browser_action": {
-    "default_title": "Blocktrail is awesome",
-    "default_icon": "resources/icon-bitty.png"
-  },
+  "web_accessible_resources": [
+    "templates/*"
+  ],
   "manifest_version": 2
 }
