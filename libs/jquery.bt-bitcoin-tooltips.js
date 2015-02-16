@@ -4,7 +4,7 @@ function BlocktrailBitTips() {
     this.PRECISION = 8;
     this.API_URL = "https://api.blocktrail.com/";
     this.API_VERSION = "v1";
-    this.API_KEY = "MY_APIKEY";
+    this.API_KEY = "CHROME_EXTENSION_APIKEY";
 
     //match where space, string start/end or non-word character precedes and follows the address (split into a group for separation from the address itself)
     this.btcRegex = /([\s|\W]+|^)([13][a-km-zA-HJ-NP-Z0-9]{25,34})([\s|\W]+|$)/g;
