@@ -91,13 +91,16 @@ function contextMenuHandler(info, tab) {
 
     switch(info.menuItemId) {
         case "link_search_address":
-            findOnBlocktrail(info.linkUrl);
+            //decode the url first
+            var search = decodeURIComponent(info.linkUrl);
+            findOnBlocktrail(search);
             break;
         case "selection_search_address":
             findOnBlocktrail(info.selectionText);
             break;
         case "link_pay_address":
-            payBitcoinAddressPopup(info.linkUrl, tab);
+            var search = decodeURIComponent(info.linkUrl);
+            payBitcoinAddressPopup(search, tab);
             break;
         case "selection_pay_address":
             payBitcoinAddressPopup(info.selectionText, tab);
