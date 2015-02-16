@@ -68,8 +68,11 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
             break;
         default:
             //unhandled message
-            console.log('not sure what to do with this message...', data, sender);
+            //console.log('modal: not sure what to do with this message...', data, sender);
     }
+
+    //keep the message channel open for other handlers to send a response
+    return true;
 });
 
 

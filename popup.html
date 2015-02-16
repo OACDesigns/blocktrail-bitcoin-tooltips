@@ -1,38 +1,67 @@
-<!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Extension Popup</title>
-    <style>
-      body {
-        font-family: "Open Sans", "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-      }
-    </style>
+    <head>
+        <title>Blocktrail Extension Popup</title>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
-    <script src="popup.js"></script>
-    <script src="contentscript.js"></script>
-  </head>
-  <body>
-    <div id="status"></div>
-    <img id="image-result" hidden>
-  </body>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: "Open Sans", "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+                font-size: 100%;
+                color: #333;
+            }
+            .body-wrapper {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                min-width: 400px;
+                max-width: 800px;
+            }
+            header .logo {
+                position: absolute;
+                width: 110px;
+                height: auto;
+                top: 0.25rem;
+                right: 0.5rem;
+                opacity: 0.75;
+            }
+            header .logo:hover {
+                opacity: 1;
+            }
+            }
+            header h1 {
+                margin-top: 0.2rem;
+                font-weight: 100;
+            }
+            section {
+                padding: 0 0.75rem 0.5rem 0.75rem;
+                margin: 0 0 0.5rem 0;
+                border-bottom: solid 1px #ccc;
+                font-size: 0.85em;
+            }
+            section .section-title {
+                margin: 0 0 0.2em -0.75rem;
+                font-size: 1.25rem;
+                font-weight: 100;
+                color: #888;
+            }
+        </style>
+
+        <script src="libs/jquery.js"></script>
+        <script src="popup.js"></script>
+    </head>
+    <body>
+        <div class="body-wrapper">
+            <header>
+                <a href="https://www.blocktrail.com" target="_blank" class="linkto-blocktrail"><img class="logo" src="images/logo-blocktrail-square.png" alt="blocktrail"/></a>
+                <h1>Bitcoin Tooltips</h1>
+            </header>
+
+            <section class="page-stats">
+                <h2 class="section-title">Page Stats</h2>
+                <div class="row">Bitcoin addresses: <span class="btc-address-count">0</span></div>
+                <div class="row">Bitcoin Testnet addresses: <span class="tbtc-address-count">0</span></div>
+            </section>
+
+        </div>
+    </body>
 </html>
-

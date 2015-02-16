@@ -193,14 +193,15 @@ chrome.runtime.onInstalled.addListener(function() {
 
 
 /*----Register Event Handlers----*/
-
-//message handler
-chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
-    console.log("background got a message", data);
-});
-
 //add the context menu event listener (each time this event page is loaded)
 chrome.contextMenus.onClicked.addListener(contextMenuHandler);
+
+//message handler
+/*
+ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
+ console.log("background got a message", data);
+ });
+ */
 
 // Called when the user clicks on the browser action.
 /*
