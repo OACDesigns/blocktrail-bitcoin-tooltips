@@ -172,15 +172,12 @@ chrome.runtime.onInstalled.addListener(function() {
 
     /*---generic menu option---*/
     //visit blocktrail.com
-    /*
     contextMenus.selectionMenu = chrome.contextMenus.create({
         "id": 'go_to_blocktrail',
         "parentId": contextMenus.root,
         "title": "Go to Blocktrail.com",
         "contexts": ["all"]
     });
-    */
-
 
     //testing menu option
     /*

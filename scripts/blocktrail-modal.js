@@ -74,27 +74,5 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
 
 
 $(document).ready(function(){
-
     console.log('blocktrail modal script loaded');
-    //create a modal window with an injected iFrame
-    /*
-    var iFrame  = $("<iframe />").attr('src', chrome.extension.getURL("blocktrail_modal.html"));
-
-    //document.body.insertBefore(iFrame, document.body.firstChild);
-    //append the modal window to the body
-    var modalHTML = '<div id="btBitTipModal" class="reveal-modal"><h1 class="title">Modal Title</h1>'
-                + '<div class="content">Any content could go in here.</div><a class="close-reveal-modal">&#215;</a></div>';
-    var modal = $(modalHTML).append(iFrame);
-    $('body').append(modal);
-    */
-
-    //append the modal template to the page
-    //var modal = $
-    //$('body').append(modal);
-
-    ////append the modal element to the body
-    //var modalHTML = '<div id="btBitTipModal" class="reveal-modal"><h1 class="title">Modal Title</h1>'
-    //    + '<div class="content">Any content could go in here.</div><a class="close-reveal-modal">&#215;</a></div>';
-    //var modal = $(modalHTML).append(iFrame);
-    //$('body').append(modal);
 });

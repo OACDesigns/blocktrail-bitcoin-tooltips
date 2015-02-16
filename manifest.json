@@ -19,7 +19,7 @@
   "permissions": [
     "activeTab",
     "contextMenus",
-    "https://api.blocktrail.com/"
+    "*://api.blocktrail.com/"
   ],
   "icons": {
     "16": "images/icon-bitty.png",

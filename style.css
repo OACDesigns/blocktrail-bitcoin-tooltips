@@ -1,11 +1,11 @@
 
-/* general styles */
+/* -----general styles----- */
 .bt-text-center {
     text-align: center;
 }
 
 
-/* Popup tooltips */
+/* -----Bitcoin tooltips----- */
 .bt-qtip-custom {
     background: rgba(195, 23, 23, 0.870588);
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.3);
@@ -24,7 +24,7 @@
 }
 
 
-/* Blocktrail Modal Window */
+/* -----Blocktrail Modal Window----- */
 #blocktrail_modal_iframe {
     display: none;
     border: none;
