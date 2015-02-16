@@ -3,6 +3,13 @@
     text-align: center;
 }
 
+.bt-qtip-custom {
+    background: rgba(195, 23, 23, 0.870588);
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.3);
+    font-size: 12px;
+    max-width: 300px;
+}
+
 .bt-qtip-custom h4{
     font-size: 1.05em !important;
     margin: 0 0 0.5em 0;
