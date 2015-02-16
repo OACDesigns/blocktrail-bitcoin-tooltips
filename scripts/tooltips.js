@@ -1,6 +1,5 @@
 
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
-    //console.log('tooltips: got a message!', data, sender);
     switch(data.action) {
         case "request_tooltip_count":
             //count the total number of tooltips found on the page and return to sender
@@ -13,7 +12,7 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
             break;
         default:
             //unhandled message
-            console.log('tooltips: not sure what to do with this message...', data, sender);
+            //console.log('tooltips: not sure what to do with this message...', data, sender);
     }
 
     //keep the message channel open for other handlers to send a response

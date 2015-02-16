@@ -34,7 +34,7 @@ function matchBitcoinAddress(input) {
         }
     }
 
-    console.log('searching '+input+'for btc/tbtc addresses: ', result);
+    //console.log('searching '+input+'for btc/tbtc addresses: ', result);
     return result;
 }
 
@@ -75,8 +75,6 @@ function payBitcoinAddressPopup(searchText, tab) {
         };
         chrome.tabs.sendMessage(tab.id, data);
     }
-
-    console.log('sent message', data);
 }
 
 
@@ -203,13 +201,5 @@ chrome.contextMenus.onClicked.addListener(contextMenuHandler);
 /*
  chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
  console.log("background got a message", data);
- });
- */
-
-// Called when the user clicks on the browser action.
-/*
- chrome.browserAction.onClicked.addListener(function(tab) {
- var action_url = "javascript:window.print();";
- chrome.tabs.update(tab.id, {url: action_url});
  });
  */

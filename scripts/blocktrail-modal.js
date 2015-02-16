@@ -3,7 +3,6 @@
  */
 
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
-    //console.log('got a message!', data, sender);
     switch(data.action) {
         case "pay_address_modal":
             //instruct the parent window to show the iframe containing this modal
@@ -77,5 +76,5 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
 
 
 $(document).ready(function(){
-    console.log('blocktrail modal script loaded');
+    //console.log('blocktrail modal script loaded');
 });
