@@ -1,10 +1,10 @@
 
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
-    console.log('got a message!', data, sender);
+    //console.log('got a message!', data, sender);
     switch(data.action) {
         case "pay_address_modal":
             $('#btBitTipModal').removeClass().addClass('reveal-modal bt-text-center');
-            $('#btBitTipModal .title').text("Make a " + data.network + " Payment");
+            $('#btBitTipModal .title').text("Scan to make a " + data.network + " payment");
             var content = "<div class='bt-bitcoin-payment-qr'></div>"
                         + "<p><i>" + data.address + "</i></p>"
                         + "<p>Scan the above QR with your wallet to send funds.</p>";
@@ -57,6 +57,10 @@ $(document).ready(function(){
     bt.scan();
 
     //on activate tab, set rescan interval
+    //chrome.tabs.onActivated.addListener(function (activeInfo) {
+    //    console.log('tab activated', activeInfo);
+    //});
+
     var rescan = setInterval(function() {
         //console.log('rescan');
         bt.scan();
@@ -65,12 +69,9 @@ $(document).ready(function(){
     // on deactivate tab clearInterval(rescan);
     //...
 
-
     //append the modal window to the body
     var html = '<div id="btBitTipModal" class="reveal-modal"><h1 class="title">Modal Title</h1>'
              + '<div class="content">Any content could go in here.</div><a class="close-reveal-modal">&#215;</a></div>';
     $('body').append(html);
 
-
-    chrome.runtime.sendMessage({data: 'hello background world!', from: "content"});
 });

@@ -109,7 +109,7 @@ function contextMenuHandler(info, tab) {
         case "testing":
             //send a message through the shared DOM
             console.log('sending message');
-            chrome.tabs.sendMessage(tab.id, "Hello world, I love lamp! - background");
+            chrome.tabs.sendMessage(tab.id, "Hello world, I love lamp! - from background");
             break;
         default:
             //unhandled event
@@ -142,7 +142,7 @@ chrome.runtime.onInstalled.addListener(function() {
     contextMenus.selectionMenu = chrome.contextMenus.create({
         "id": 'selection_search_address',
         "parentId": contextMenus.root,
-        "title": "Search Blocktrail for '%s'",
+        "title": "Find '%s' on Blocktrail",
         "contexts": ["selection"]
     });
 
@@ -151,34 +151,36 @@ chrome.runtime.onInstalled.addListener(function() {
     contextMenus.linkMenu = chrome.contextMenus.create({
         "id": 'link_pay_address',
         "parentId": contextMenus.root,
-        "title": "Send Bitcoin to Address",
+        "title": "Send Bitcoin",
         "contexts": ["link"]
     });
     //see address on blocktrail
     contextMenus.linkMenu = chrome.contextMenus.create({
         "id": 'link_search_address',
         "parentId": contextMenus.root,
-        "title": "Search Blocktrail for address",
+        "title": "Find on Blocktrail",
         "contexts": ["link"]
     });
 
-
     //separator
     contextMenus.linkMenu = chrome.contextMenus.create({
+        "id": 'separator_1',
         "parentId": contextMenus.root,
         "type": 'separator',
         "contexts": ["all"]
     });
 
-
     /*---generic menu option---*/
     //visit blocktrail.com
+    /*
     contextMenus.selectionMenu = chrome.contextMenus.create({
         "id": 'go_to_blocktrail',
         "parentId": contextMenus.root,
         "title": "Go to Blocktrail.com",
         "contexts": ["all"]
     });
+    */
+
 
     //testing menu option
     /*
@@ -200,7 +202,7 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
     console.log("background got a message", data);
 });
 
-//add a general event listener whenever this event page is loaded
+//add the context menu event listener (each time this event page is loaded)
 chrome.contextMenus.onClicked.addListener(contextMenuHandler);
 
 // Called when the user clicks on the browser action.
