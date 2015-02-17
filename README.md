@@ -1,2 +1,6 @@
-# blocktrail-browser-extensions
-browser extensions for loading and displaying Bitcoin data for addresses on webpages 
+# Blocktrail Bitcoin Tooltips
+A Google Chrome browser extension for loading and displaying live Bitcoin data for addresses on webpages.
+
+Install from the Google web store
+
+
