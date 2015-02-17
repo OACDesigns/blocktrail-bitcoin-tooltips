@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "Blocktrail Bitcoin browser extension",
-  "description": "This extension shows info for bitcoin and testnet addresses the current page",
+  "name": "Blocktrail Bitcoin Toolips",
+  "short_name": "Blocktrail Bit-Tips",
+  "description": "View live Bitcoin information for addresses embedded in any webpage",
   "version": "0.0.1",
   "author": "Oisin Conolly",
 
