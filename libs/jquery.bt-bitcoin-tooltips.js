@@ -35,7 +35,7 @@ BlocktrailBitTips.prototype.scan = function() {
 
     $('a:not(.bt-bitcoin-tooltip)').each(function(key, val) {
         //try match bitcoin address in both href and anchor text
-        var searchText = $(this).text() + " " + $(this).attr('href');
+        var searchText = $(this).attr('href') + " " + $(this).text();
         var matches = self.btcRegex.exec(searchText);
 
         if(matches != null) {
@@ -87,7 +87,7 @@ BlocktrailBitTips.prototype.scan = function() {
                     },
                     function error(xhr, status, error){
                         //console.log('Oh noes, an error!', error);
-                        api.set('content.text', 'Oh noes, an error happened!');
+                        api.set('content.text', "Oh noes, we couldn't get info on that link!");
                     });
             }
         },
