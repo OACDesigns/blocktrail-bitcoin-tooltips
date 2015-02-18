@@ -62,8 +62,9 @@ BlocktrailBitTips.prototype.scan = function() {
         content: {
             text: function(event, api) {
                 //get the info about the address
-                var address = $(this).data('address');
-                var network = $(this).data('network');
+                var elm = $(this);
+                var address = elm.attr('data-address');
+                var network = elm.attr('data-network');
 
                 return $.ajax({
                     url: self.API_URL + self.API_VERSION + "/" + network + "/address/" + address,
@@ -87,7 +88,11 @@ BlocktrailBitTips.prototype.scan = function() {
                     },
                     function error(xhr, status, error){
                         //console.log('Oh noes, an error!', error);
-                        api.set('content.text', "Oh noes, we couldn't get info on that link!");
+                        api.set('content.text', "Oh noes, we had a little trouble with that link!");
+
+                        //remove the tooltip so it can be re-evaluated on the next scan
+                        elm.removeAttr('data-address').removeAttr('data-network').removeClass('bt-bitcoin-tooltip');
+                        setTimeout(function(){ api.destroy(); }, 1000);
                     });
             }
         },

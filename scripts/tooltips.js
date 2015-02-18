@@ -35,7 +35,7 @@ $(document).ready(function(){
     var rescan = setInterval(function() {
         //console.log('rescan');
         bt.scan();
-    }, 1000);
+    }, 2000);
 
     // on deactivate tab clearInterval(rescan);
     //...
