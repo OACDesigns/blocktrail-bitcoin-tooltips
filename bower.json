@@ -1,0 +1,25 @@
+{
+  "name": "Blocktrail Bitcoin Tooltips",
+  "version": "0.0.4",
+  "homepage": "https://github.com/blocktrail/blocktrail-browser-extensions",
+  "authors": [
+    "Oisin <oisin@blocktrail.com>"
+  ],
+  "description": "View live Bitcoin information for addresses embedded in any webpage",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bitcore": "^0.11.2",
+    "jquery": "^2.1.3",
+    "lodash": "^3.5.0",
+    "qtip2": "^2.2.1",
+    "jquery.qrcode": "^0.11.0"
+  }
+}

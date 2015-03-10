@@ -4,7 +4,7 @@
   "name": "Blocktrail Bitcoin Tooltips",
   "short_name": "Blocktrail Bit-Tips",
   "description": "View live Bitcoin information for addresses embedded in any webpage",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Oisin Conolly",
 
   "browser_action": {
@@ -34,19 +34,19 @@
         "style.css"
       ],
       "js": [
-        "libs/jquery.js"
+        "libs/jquery/dist/jquery.min.js"
       ]
     },
     {
       "matches": ["http://*/*", "https://*/*"],
       "exclude_matches": ["*://*.blocktrail.com/*"],
       "css": [
-        "libs/jquery.qtip.min.css",
+        "libs/qtip2/jquery.qtip.min.css",
         "libs/reveal/reveal.css",
         "style.css"
       ],
       "js": [
-        "libs/jquery.qtip.min.js",
+        "libs/qtip2/jquery.qtip.min.js",
         "libs/jquery.bt-bitcoin-tooltips.js",
         "scripts/tooltips.js"
       ]
@@ -59,8 +59,8 @@
       ],
       "js": [
         "libs/reveal/jquery.reveal.custom.js",
-        "libs/lodash.min.js",
-        "libs/jquery.qrcode-0.11.0.min.js",
+        "libs/lodash/lodash.min.js",
+        "libs/jquery.qrcode/dist/jquery.qrcode.min.js",
         "scripts/modal-injector.js"
       ]
     }
