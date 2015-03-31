@@ -88,7 +88,10 @@ BlocktrailBitTips.prototype.scan = function() {
                     },
                     function error(xhr, status, error){
                         //console.log('Oh noes, an error!', error);
-                        api.set('content.text', "Oh noes, we had a little trouble with that link!");
+                        //too many false positives, remove for now. we need better address validation than just regex
+                        //api.set('content.text', "Oh noes, we had a little trouble with that link!");
+                        api.destroy(true);
+
 
                         //remove the tooltip so it can be re-evaluated on the next scan
                         elm.removeAttr('data-address').removeAttr('data-network').removeClass('bt-bitcoin-tooltip');

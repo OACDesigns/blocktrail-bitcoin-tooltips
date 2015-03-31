@@ -4,7 +4,7 @@
   "name": "Blocktrail Bitcoin Tooltips",
   "short_name": "Blocktrail Bit-Tips",
   "description": "View live Bitcoin information for addresses embedded in any webpage",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Oisin Conolly",
 
   "browser_action": {
